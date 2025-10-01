@@ -386,5 +386,3 @@ export type {
 };
 
 export { countries, regionSubregionMap };
-
-getAllCurrencies().filter((c) => c.code === "EUR");
