@@ -1,4 +1,4 @@
-# 🌍 TS-Countries
+# 🌍 TS-Countries-list-List
 
 A comprehensive, type-safe TypeScript library for querying country information including names, codes, currencies, languages, regions, and more.
 
@@ -17,15 +17,15 @@ A comprehensive, type-safe TypeScript library for querying country information i
 ## 📦 Installation
 
 ```bash
-npm install ts-countries
+npm install ts-countries-list
 ```
 
 ```bash
-yarn add ts-countries
+yarn add ts-countries-list
 ```
 
 ```bash
-pnpm add ts-countries
+pnpm add ts-countries-list
 ```
 
 ## 🚀 Quick Start
@@ -35,7 +35,7 @@ import {
   getCountryByAlpha2,
   getCountriesByContinent,
   searchCountriesByName,
-} from "ts-countries";
+} from "ts-countries-list";
 
 // Get country by code
 const usa = getCountryByAlpha2("US");
@@ -312,7 +312,7 @@ interface Country {
 This library is written in TypeScript and provides excellent type inference:
 
 ```typescript
-import { getCountriesByRegion, type Country } from "ts-countries";
+import { getCountriesByRegion, type Country } from "ts-countries-list";
 
 // TypeScript knows the exact subregions for each region
 const countries = getCountriesByRegion("Asia", "Eastern Asia"); // ✅
@@ -328,7 +328,7 @@ country.currency.code; // Full autocomplete for all properties
 ### Get all EU countries using Euro
 
 ```typescript
-import { getCountriesByMultipleFilters } from "ts-countries";
+import { getCountriesByMultipleFilters } from "ts-countries-list";
 
 const euEuroCountries = getCountriesByMultipleFilters({
   region: "Europe",
@@ -339,7 +339,7 @@ const euEuroCountries = getCountriesByMultipleFilters({
 ### Build a country selector dropdown
 
 ```typescript
-import { getCountryNames, getCountryByName } from "ts-countries";
+import { getCountryNames, getCountryByName } from "ts-countries-list";
 
 const countryOptions = getCountryNames().map((name) => ({
   label: name,
@@ -350,7 +350,7 @@ const countryOptions = getCountryNames().map((name) => ({
 ### Find countries that share a language
 
 ```typescript
-import { getCountriesByLanguage } from "ts-countries";
+import { getCountriesByLanguage } from "ts-countries-list";
 
 const frenchSpeaking = getCountriesByLanguage("French");
 console.log(frenchSpeaking.map((c) => c.name));
@@ -360,7 +360,7 @@ console.log(frenchSpeaking.map((c) => c.name));
 ### Compare two countries
 
 ```typescript
-import { compareCountries } from "ts-countries";
+import { compareCountries } from "ts-countries-list";
 
 const comparison = compareCountries("US", "GB");
 console.log({
