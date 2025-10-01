@@ -3,7 +3,9 @@ import {
   Continents,
   Country,
   CountryAlpha3,
+  Capitals,
   CountryCode,
+  CountryCodeNumeric,
   CountryFields,
   CountryName,
   CountryRegion,
@@ -11,6 +13,7 @@ import {
   Currency,
   CurrencyCode,
   Language,
+  PhoneCountryCode,
   regionSubregionMap,
   SubregionsOf,
 } from "./types";
@@ -31,7 +34,9 @@ export const getCountryByAlpha3 = (code: CountryAlpha3): Country | undefined =>
 /**
  * Search for a country by any code (alpha2, alpha3, or numeric)
  */
-export const getCountryByCode = (code: string): Country | undefined => {
+export const getCountryByCode = (
+  code: CountryCode | CountryAlpha3 | CountryCodeNumeric
+): Country | undefined => {
   const upperCode = code.toUpperCase();
   return countries.find(
     (c) =>
@@ -42,7 +47,7 @@ export const getCountryByCode = (code: string): Country | undefined => {
 /**
  * Search for countries by name (case-insensitive, partial match)
  */
-export const searchCountriesByName = (query: string): Country[] => {
+export const searchCountriesByName = (query: CountryName): Country[] => {
   const lowerQuery = query.toLowerCase();
   return countries.filter(
     (c) =>
@@ -55,7 +60,9 @@ export const searchCountriesByName = (query: string): Country[] => {
 /**
  * Get country by phone code
  */
-export const getCountriesByPhoneCode = (phoneCode: string): Country[] => {
+export const getCountriesByPhoneCode = (
+  phoneCode: PhoneCountryCode
+): Country[] => {
   const normalized = phoneCode.startsWith("+") ? phoneCode : `+${phoneCode}`;
   return countries.filter((c) => c.phoneCode === normalized);
 };
@@ -63,7 +70,7 @@ export const getCountriesByPhoneCode = (phoneCode: string): Country[] => {
 /**
  * Get country by capital city
  */
-export const getCountryByCapital = (capital: string): Country | undefined =>
+export const getCountryByCapital = (capital: Capitals): Country | undefined =>
   countries.find((c) => c.capital?.toLowerCase() === capital.toLowerCase());
 
 // ============================================================================
@@ -282,15 +289,15 @@ export const isValidCountryCode = (code: string): boolean => {
 /**
  * Check if a currency code is valid
  */
-export const isValidCurrencyCode = (code: CurrencyCode): boolean =>
+export const isValidCurrencyCode = (code: string): boolean =>
   countries.some((c) => c.currency?.code === code);
 
 /**
  * Check if a language is spoken in any country
  */
-export const isValidLanguage = (language: Language): boolean =>
+export const isValidLanguage = (language: string): boolean =>
   countries.some((c) =>
-    (c.languages as readonly Language[]).includes(language)
+    (c.languages as readonly Language[]).includes(language as Language)
   );
 
 // ============================================================================
@@ -352,12 +359,15 @@ export type {
   CountryName,
   CountryRegion,
   Continents,
+  Capitals,
   CountryCode,
   CountryAlpha3,
+  CountryCodeNumeric,
   Currency,
   CurrencyCode,
   CountrySubRegion,
   CountryFields,
+  PhoneCountryCode,
   Language,
   SubregionsOf,
 };

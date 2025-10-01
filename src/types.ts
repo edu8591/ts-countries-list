@@ -14,12 +14,15 @@ export type CountryName = Country["name"];
 export type CountryRegion = Country["region"];
 export type Continents = Country["continent"];
 export type CountryCode = Country["alpha2"];
+export type CountryCodeNumeric = Country["numeric"];
 export type CountryAlpha3 = Country["alpha3"];
 export type Currency = NonNullable<Country["currency"]>;
 export type CurrencyCode = Currency["code"];
 export type CountrySubRegion = Country["subregion"];
 export type CountryFields = keyof Country;
+export type PhoneCountryCode = Country["phoneCode"];
 export type Language = Country["languages"][number];
+export type Capitals = Country["capital"];
 
 // ============================================================================
 // REGION AND SUBREGION MAPPING
