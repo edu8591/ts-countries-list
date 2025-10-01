@@ -1,4 +1,4 @@
-# 🌍 TS-Countries-list-List
+# 🌍 TS-Countries-List
 
 A comprehensive, type-safe TypeScript library for querying country information including names, codes, currencies, languages, regions, and more.
 
