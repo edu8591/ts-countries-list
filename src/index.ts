@@ -179,8 +179,23 @@ export const getSubregions = <R extends CountryRegion>(
 export const getAllContinents = (): Continents[] =>
   Array.from(new Set(countries.map((c) => c.continent)));
 
-export const getAllCurrencies = (): Currency[] =>
-  Array.from(new Set(countries.map((c) => c.currency))) as Currency[];
+/**
+ * Get all unique currencies used across all countries.
+ * Uses Map for deduplication by currency code (more efficient than JSON stringify/parse).
+ */
+export const getAllCurrencies = (): Currency[] => {
+  const currencyMap = new Map<CurrencyCode, Currency>();
+
+  countries.forEach((country) => {
+    const { currency } = country;
+    // Use currency code as unique key - avoids stringify/parse overhead
+    if (!currencyMap.has(currency.code)) {
+      currencyMap.set(currency.code, currency);
+    }
+  });
+
+  return Array.from(currencyMap.values());
+};
 
 export const getAllLanguages = (): Language[] =>
   Array.from(
@@ -371,3 +386,5 @@ export type {
 };
 
 export { countries, regionSubregionMap };
+
+getAllCurrencies().filter((c) => c.code === "EUR");
