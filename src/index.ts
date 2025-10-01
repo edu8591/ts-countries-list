@@ -179,10 +179,8 @@ export const getSubregions = <R extends CountryRegion>(
 export const getAllContinents = (): Continents[] =>
   Array.from(new Set(countries.map((c) => c.continent)));
 
-export const getAllCurrencies = (): CurrencyCode[] =>
-  Array.from(
-    new Set(countries.map((c) => c.currency?.code).filter(Boolean))
-  ) as CurrencyCode[];
+export const getAllCurrencies = (): Currency[] =>
+  Array.from(new Set(countries.map((c) => c.currency))) as Currency[];
 
 export const getAllLanguages = (): Language[] =>
   Array.from(
