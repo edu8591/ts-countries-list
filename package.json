@@ -20,6 +20,10 @@
   ],
   "author": "Eduardo",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/edu8591/ts-countries-list.git"
+  },
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^24.6.1",
