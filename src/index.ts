@@ -362,7 +362,21 @@ export const compareCountries = (
     sharedLanguages,
   };
 };
-
+/**
+ * Get the region of a country by any identifier (name, alpha2, alpha3, or numeric code)
+ */
+export const getCountryRegion = (
+  identifier: string
+): CountryRegion | undefined => {
+  const country = countries.find(
+    (c) =>
+      c.name.toLowerCase() === identifier.toLowerCase() ||
+      c.officialName?.toLowerCase() === identifier.toLowerCase() ||
+      c.alpha2.toLowerCase() === identifier.toLowerCase() ||
+      c.alpha3.toLowerCase() === identifier.toLowerCase()
+  );
+  return country?.region;
+};
 // ============================================================================
 // EXPORT ALL TYPES
 // ============================================================================
