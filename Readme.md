@@ -280,6 +280,16 @@ console.log(comparison.sameContinent); // true
 console.log(comparison.sharedLanguages); // ['English']
 ```
 
+#### `getCountryRegion(identifier: string): CountryRegion | undefined`
+
+Get the region of a country by any identifier (name, alpha2, alpha3, or numeric code).
+
+```typescript
+const region = getCountryRegion("US"); // 'Americas'
+const region2 = getCountryRegion("Japan"); // 'Asia'
+const region3 = getCountryRegion("DEU"); // 'Europe' (using alpha3)
+```
+
 ## 🏗️ Country Data Structure
 
 Each country object contains:
