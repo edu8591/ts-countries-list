@@ -58,6 +58,35 @@ export const searchCountriesByName = (query: CountryName): Country[] => {
 };
 
 /**
+ * Search for a country by a single identifier — accepts a country name, alpha-2 code, alpha-3 code, or numeric code.
+ * Matching is case-insensitive; name lookups also check `officialName` and `nativeName`.
+ *
+ * @param identifier - The country name, alpha-2 code, alpha-3 code, or numeric code
+ * @returns The matched country, or `undefined` if no match is found
+ *
+ * @example
+ * searchCountryByCodeOrName("US");              // United States (alpha-2)
+ * searchCountryByCodeOrName("USA");             // United States (alpha-3)
+ * searchCountryByCodeOrName("840");             // United States (numeric)
+ * searchCountryByCodeOrName("United States");   // United States (name)
+ */
+export const searchCountryByCodeOrName = (
+  identifier: string,
+): Country | undefined => {
+  const lower = identifier.toLowerCase();
+  const upper = identifier.toUpperCase();
+
+  return countries.find(
+    (c) =>
+      c.alpha2 === upper ||
+      c.alpha3 === upper ||
+      c.numeric === identifier ||
+      c.name.toLowerCase() === lower ||
+      c.officialName?.toLowerCase() === lower ||
+      c.nativeName?.toLowerCase() === lower,
+  );
+};
+/**
  * Get country by phone code
  */
 export const getCountriesByPhoneCode = (
@@ -386,12 +415,13 @@ export const compareCountries = (
 export const getCountryRegion = (
   identifier: string,
 ): CountryRegion | undefined => {
+  const lowerCaseIdentifier = identifier.toLowerCase();
   const country = countries.find(
     (c) =>
-      c.name.toLowerCase() === identifier.toLowerCase() ||
-      c.officialName?.toLowerCase() === identifier.toLowerCase() ||
-      c.alpha2.toLowerCase() === identifier.toLowerCase() ||
-      c.alpha3.toLowerCase() === identifier.toLowerCase(),
+      c.name.toLowerCase() === lowerCaseIdentifier ||
+      c.officialName?.toLowerCase() === lowerCaseIdentifier ||
+      c.alpha2.toLowerCase() === lowerCaseIdentifier ||
+      c.alpha3.toLowerCase() === lowerCaseIdentifier,
   );
   return country?.region;
 };
@@ -411,12 +441,13 @@ export const getCountryRegion = (
 export const getCountryContinent = (
   identifier: string,
 ): Continents | undefined => {
+  const lowerCaseIdentifier = identifier.toLowerCase();
   const country = countries.find(
     (c) =>
-      c.name.toLowerCase() === identifier.toLowerCase() ||
-      c.officialName?.toLowerCase() === identifier.toLowerCase() ||
-      c.alpha2.toLowerCase() === identifier.toLowerCase() ||
-      c.alpha3.toLowerCase() === identifier.toLowerCase(),
+      c.name.toLowerCase() === lowerCaseIdentifier ||
+      c.officialName?.toLowerCase() === lowerCaseIdentifier ||
+      c.alpha2.toLowerCase() === lowerCaseIdentifier ||
+      c.alpha3.toLowerCase() === lowerCaseIdentifier,
   );
   return country?.continent;
 };
