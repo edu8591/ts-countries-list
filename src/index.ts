@@ -35,12 +35,12 @@ export const getCountryByAlpha3 = (code: CountryAlpha3): Country | undefined =>
  * Search for a country by any code (alpha2, alpha3, or numeric)
  */
 export const getCountryByCode = (
-  code: CountryCode | CountryAlpha3 | CountryCodeNumeric
+  code: CountryCode | CountryAlpha3 | CountryCodeNumeric,
 ): Country | undefined => {
   const upperCode = code.toUpperCase();
   return countries.find(
     (c) =>
-      c.alpha2 === upperCode || c.alpha3 === upperCode || c.numeric === code
+      c.alpha2 === upperCode || c.alpha3 === upperCode || c.numeric === code,
   );
 };
 
@@ -53,7 +53,7 @@ export const searchCountriesByName = (query: CountryName): Country[] => {
     (c) =>
       c.name.toLowerCase().includes(lowerQuery) ||
       c.officialName?.toLowerCase().includes(lowerQuery) ||
-      c.nativeName?.toLowerCase().includes(lowerQuery)
+      c.nativeName?.toLowerCase().includes(lowerQuery),
   );
 };
 
@@ -61,7 +61,7 @@ export const searchCountriesByName = (query: CountryName): Country[] => {
  * Get country by phone code
  */
 export const getCountriesByPhoneCode = (
-  phoneCode: PhoneCountryCode
+  phoneCode: PhoneCountryCode,
 ): Country[] => {
   const normalized = phoneCode.startsWith("+") ? phoneCode : `+${phoneCode}`;
   return countries.filter((c) => c.phoneCode === normalized);
@@ -85,15 +85,15 @@ export const getCountriesByContinent = (continents: Continents[]): Country[] =>
 
 export const getCountriesByRegion = <R extends CountryRegion>(
   region: R,
-  subRegion?: SubregionsOf<R>
+  subRegion?: SubregionsOf<R>,
 ): Country[] =>
   countries.filter(
-    (c) => c.region === region && (!subRegion || c.subregion === subRegion)
+    (c) => c.region === region && (!subRegion || c.subregion === subRegion),
   );
 
 export const getCountriesByLanguage = (language: Language): Country[] =>
   countries.filter((c) =>
-    (c.languages as readonly Language[]).includes(language)
+    (c.languages as readonly Language[]).includes(language),
   );
 
 /**
@@ -137,7 +137,7 @@ export const getCountriesByFields = <F extends CountryFields>(
     language?: Language;
     currency?: CurrencyCode;
   },
-  fields: readonly F[]
+  fields: readonly F[],
 ): Pick<Country, F>[] => {
   return countries
     .filter((c) => {
@@ -170,7 +170,7 @@ export const getAllRegions = (): CountryRegion[] =>
   Object.keys(regionSubregionMap) as CountryRegion[];
 
 export const getSubregions = <R extends CountryRegion>(
-  region: R
+  region: R,
 ): SubregionsOf<R>[] =>
   [
     ...(regionSubregionMap[region] as readonly SubregionsOf<R>[]),
@@ -199,7 +199,7 @@ export const getAllCurrencies = (): Currency[] => {
 
 export const getAllLanguages = (): Language[] =>
   Array.from(
-    new Set(countries.flatMap((c) => c.languages as readonly Language[]))
+    new Set(countries.flatMap((c) => c.languages as readonly Language[])),
   );
 
 export const getCountryNames = (): CountryName[] =>
@@ -225,62 +225,80 @@ export const getCountriesGroupedByContinent = (): Record<
   Continents,
   Country[]
 > =>
-  countries.reduce((acc, c) => {
-    const cont = c.continent;
-    if (!acc[cont]) acc[cont] = [];
-    acc[cont].push(c);
-    return acc;
-  }, {} as Record<Continents, Country[]>);
+  countries.reduce(
+    (acc, c) => {
+      const cont = c.continent;
+      if (!acc[cont]) acc[cont] = [];
+      acc[cont].push(c);
+      return acc;
+    },
+    {} as Record<Continents, Country[]>,
+  );
 
 export const getCountriesGroupedByRegion = (): Record<
   CountryRegion,
   Country[]
 > =>
-  countries.reduce((acc, c) => {
-    const reg = c.region;
-    if (!acc[reg]) acc[reg] = [];
-    acc[reg].push(c);
-    return acc;
-  }, {} as Record<CountryRegion, Country[]>);
+  countries.reduce(
+    (acc, c) => {
+      const reg = c.region;
+      if (!acc[reg]) acc[reg] = [];
+      acc[reg].push(c);
+      return acc;
+    },
+    {} as Record<CountryRegion, Country[]>,
+  );
 
 export const getCountriesGroupedByCurrency = (): Record<
   CurrencyCode,
   Country[]
 > =>
-  countries.reduce((acc, c) => {
-    if (c.currency?.code) {
-      if (!acc[c.currency.code]) acc[c.currency.code] = [];
-      acc[c.currency.code].push(c);
-    }
-    return acc;
-  }, {} as Record<CurrencyCode, Country[]>);
+  countries.reduce(
+    (acc, c) => {
+      if (c.currency?.code) {
+        if (!acc[c.currency.code]) acc[c.currency.code] = [];
+        acc[c.currency.code].push(c);
+      }
+      return acc;
+    },
+    {} as Record<CurrencyCode, Country[]>,
+  );
 
 export const getCountriesGroupedByLanguage = (): Record<Language, Country[]> =>
-  countries.reduce((acc, c) => {
-    (c.languages as readonly Language[]).forEach((lang) => {
-      if (!acc[lang]) acc[lang] = [];
-      acc[lang].push(c);
-    });
-    return acc;
-  }, {} as Record<Language, Country[]>);
+  countries.reduce(
+    (acc, c) => {
+      (c.languages as readonly Language[]).forEach((lang) => {
+        if (!acc[lang]) acc[lang] = [];
+        acc[lang].push(c);
+      });
+      return acc;
+    },
+    {} as Record<Language, Country[]>,
+  );
 
 // ============================================================================
 // COUNTING FUNCTIONS
 // ============================================================================
 
 export const getCountryCountByContinent = (): Record<Continents, number> =>
-  countries.reduce((acc, c) => {
-    const cont = c.continent;
-    acc[cont] = (acc[cont] || 0) + 1;
-    return acc;
-  }, {} as Record<Continents, number>);
+  countries.reduce(
+    (acc, c) => {
+      const cont = c.continent;
+      acc[cont] = (acc[cont] || 0) + 1;
+      return acc;
+    },
+    {} as Record<Continents, number>,
+  );
 
 export const getCountryCountByRegion = (): Record<CountryRegion, number> =>
-  countries.reduce((acc, c) => {
-    const reg = c.region;
-    acc[reg] = (acc[reg] || 0) + 1;
-    return acc;
-  }, {} as Record<CountryRegion, number>);
+  countries.reduce(
+    (acc, c) => {
+      const reg = c.region;
+      acc[reg] = (acc[reg] || 0) + 1;
+      return acc;
+    },
+    {} as Record<CountryRegion, number>,
+  );
 
 export const getTotalCountries = (): number => countries.length;
 
@@ -295,7 +313,7 @@ export const isValidCountryCode = (code: string): boolean => {
   const upperCode = code.toUpperCase();
   return countries.some(
     (c) =>
-      c.alpha2 === upperCode || c.alpha3 === upperCode || c.numeric === code
+      c.alpha2 === upperCode || c.alpha3 === upperCode || c.numeric === code,
   );
 };
 
@@ -310,7 +328,7 @@ export const isValidCurrencyCode = (code: string): boolean =>
  */
 export const isValidLanguage = (language: string): boolean =>
   countries.some((c) =>
-    (c.languages as readonly Language[]).includes(language as Language)
+    (c.languages as readonly Language[]).includes(language as Language),
   );
 
 // ============================================================================
@@ -325,7 +343,7 @@ export const getPotentialNeighbors = (countryCode: CountryCode): Country[] => {
   if (!country) return [];
 
   return countries.filter(
-    (c) => c.subregion === country.subregion && c.alpha2 !== country.alpha2
+    (c) => c.subregion === country.subregion && c.alpha2 !== country.alpha2,
   );
 };
 
@@ -334,7 +352,7 @@ export const getPotentialNeighbors = (countryCode: CountryCode): Country[] => {
  */
 export const compareCountries = (
   code1: CountryCode,
-  code2: CountryCode
+  code2: CountryCode,
 ): {
   country1: Country | undefined;
   country2: Country | undefined;
@@ -349,7 +367,7 @@ export const compareCountries = (
   const sharedLanguages =
     c1 && c2
       ? (c1.languages as readonly Language[]).filter((lang) =>
-          (c2.languages as readonly Language[]).includes(lang)
+          (c2.languages as readonly Language[]).includes(lang),
         )
       : [];
 
@@ -366,16 +384,41 @@ export const compareCountries = (
  * Get the region of a country by any identifier (name, alpha2, alpha3, or numeric code)
  */
 export const getCountryRegion = (
-  identifier: string
+  identifier: string,
 ): CountryRegion | undefined => {
   const country = countries.find(
     (c) =>
       c.name.toLowerCase() === identifier.toLowerCase() ||
       c.officialName?.toLowerCase() === identifier.toLowerCase() ||
       c.alpha2.toLowerCase() === identifier.toLowerCase() ||
-      c.alpha3.toLowerCase() === identifier.toLowerCase()
+      c.alpha3.toLowerCase() === identifier.toLowerCase(),
   );
   return country?.region;
+};
+
+/**
+ * Get the continent of a country by any identifier (name, official name, alpha2, or alpha3 code).
+ *
+ * @param identifier - The country name, official name, alpha-2 code, or alpha-3 code (case-insensitive)
+ * @returns The continent of the matched country, or `undefined` if no match is found
+ *
+ * @example
+ * getCountryContinent("Brazil");    // "South America"
+ * getCountryContinent("BR");        // "South America"
+ * getCountryContinent("BRA");       // "South America"
+ * getCountryContinent("unknown");   // undefined
+ */
+export const getCountryContinent = (
+  identifier: string,
+): Continents | undefined => {
+  const country = countries.find(
+    (c) =>
+      c.name.toLowerCase() === identifier.toLowerCase() ||
+      c.officialName?.toLowerCase() === identifier.toLowerCase() ||
+      c.alpha2.toLowerCase() === identifier.toLowerCase() ||
+      c.alpha3.toLowerCase() === identifier.toLowerCase(),
+  );
+  return country?.continent;
 };
 // ============================================================================
 // EXPORT ALL TYPES
